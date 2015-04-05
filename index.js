@@ -36,6 +36,8 @@ function check() {
         }
         timer = setTimeout(check, 10000);
       }
+    } else {
+      stopBroadcast();
     }
   });
 }

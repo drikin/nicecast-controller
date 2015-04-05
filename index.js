@@ -1,5 +1,6 @@
 var applescript = require('applescript');
 var chokidar    = require('chokidar');
+var exec        = require('child_process').exec;
 var fs          = require('fs');
 var os          = require('os');
 
@@ -24,17 +25,23 @@ chokidar.watch(targetPath, {ignored: /[\/\\]\./}).on('add', function(path) {
 function check() {
   console.log('Check');
 
-  var size = fs.statSync(filePath).size;
-  if (size !== lastSize) {
-    lastSize = size;
-
-    if (timer) {
-      clearTimeout(timer);
+  var child = exec('lsof "' + filePath + '" | grep CallRecor', function(err, stdout, stderr) {
+    if (!err) {
+      console.log('stdout: ' + stdout);
+      console.log('stderr: ' + stderr)
+      if (stdout === "") {
+        stopBroadcast();
+      } else {
+        if (timer) {
+          clearTimeout(timer);
+        }
+        timer = setTimeout(check, 10000);
+      }
+    } else {
+      console.log(err);
+      stopBroadcast();
     }
-    timer = setTimeout(check, 60000);
-  } else {
-    stopBroadcast();
-  }
+  });
 }
 
 function startBroadcast() {

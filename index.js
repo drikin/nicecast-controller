@@ -31,7 +31,7 @@ function check() {
     if (timer) {
       clearTimeout(timer);
     }
-    timer = setTimeout(check, 10000);
+    timer = setTimeout(check, 60000);
   } else {
     stopBroadcast();
   }

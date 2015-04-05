@@ -25,10 +25,9 @@ chokidar.watch(targetPath, {ignored: /[\/\\]\./}).on('add', function(path) {
 function check() {
   console.log('Check');
 
+  // FIME this is very adhoc check if CallRecorder is working or not
   var child = exec('lsof "' + filePath + '" | grep CallRecor', function(err, stdout, stderr) {
     if (!err) {
-      console.log('stdout: ' + stdout);
-      console.log('stderr: ' + stderr)
       if (stdout === "") {
         stopBroadcast();
       } else {
@@ -37,9 +36,6 @@ function check() {
         }
         timer = setTimeout(check, 10000);
       }
-    } else {
-      console.log(err);
-      stopBroadcast();
     }
   });
 }

@@ -1,0 +1,18 @@
+{
+  "name": "nicecast-controller",
+  "version": "0.0.1",
+  "description": "Nicecast controll script via NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nicecast",
+    "nodejs"
+  ],
+  "author": "Koh Aoki a.k.a. drikin",
+  "dependencies": {
+    "applescript": "^1.0.0",
+    "chokidar": "^1.0.0-rc5"
+  }
+}

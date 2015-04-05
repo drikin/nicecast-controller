@@ -1,30 +1,33 @@
 var applescript = require('applescript');
-var chokidar = require('chokidar');
-var lastUpdate = Date();
-var timer = null;
+var chokidar    = require('chokidar');
+var fs          = require('fs');
+
+var lastSize = null;
+var filePath = null;
 
 // One-liner for current directory, ignores .dotfiles
-chokidar.watch('.', {ignored: /[\/\\]\./}).on('change', function(event, path) {
-  lastUpdate = Date();
+chokidar.watch('.', {ignored: /[\/\\]\./}).on('add', function(path) {
+  filePath = path;
+  lastSize = fs.statSync(filePath).size;
 
-  if (timer) {
-    clearTimeout(timer);
-  } else {
-    console.log('Start broadcast');
-    startBroadcast();
-  }
-
-  timer = setTimeout(function() {
-      console.log('Stop broadcast');
-      timer = null;
-      stopBroadcast();
-  }, 10000);
+  console.log('Start broadcast');
+  startBroadcast();
 });
 
+function check() {
+  var size = fs.statSync(filePath).size;
+  if (size !== lastSize) {
+    setTimeout(check, 10000);
+  } else {
+    stopBroadcast();
+  }
+}
 
 function startBroadcast() {
   var start = 'tell application "Nicecast" to start broadcast';
   asRun(start);
+
+  setTimeout(check, 10000);
 }
 
 function stopBroadcast() {

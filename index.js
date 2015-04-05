@@ -33,7 +33,7 @@ function stopBroadcast() {
 }
 
 function asRun(script) {
-  applescript.execString(scrip, function(err, rtn) {
+  applescript.execString(script, function(err, rtn) {
     if (err) {
       // Something went wrong!
     }

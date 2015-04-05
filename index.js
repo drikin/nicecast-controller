@@ -57,7 +57,7 @@ function stopBroadcast() {
 }
 
 function asRun(script) {
-  if (os.platform !== "darwin") return;
+  if (os.platform() !== "darwin") return;
 
   applescript.execString(script, function(err, rtn) {
     if (err) {

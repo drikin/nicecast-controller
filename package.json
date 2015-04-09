@@ -13,6 +13,7 @@
   "author": "Koh Aoki a.k.a. drikin",
   "dependencies": {
     "applescript": "^1.0.0",
-    "chokidar": "^1.0.0-rc5"
+    "chokidar": "^1.0.0-rc5",
+    "twitter": "^1.2.5"
   }
 }

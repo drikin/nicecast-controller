@@ -3,6 +3,14 @@ var chokidar    = require('chokidar');
 var exec        = require('child_process').exec;
 var fs          = require('fs');
 var os          = require('os');
+var twitter     = require('twitter');
+
+var client = new twitter({
+  consumer_key: "",
+  consumer_secret: "",
+  access_token_key: "",
+  access_token_secret: ""
+});
 
 var lastSize = null;
 var filePath = null;
@@ -52,6 +60,8 @@ function startBroadcast() {
 
   var start = 'tell application "Nicecast" to start broadcast';
   asRun(start);
+
+  tweet('backspace.fmのライブ配信を開始しました！ http://backspace.fm/live.html #backspacefm');
 }
 
 function stopBroadcast() {
@@ -59,6 +69,7 @@ function stopBroadcast() {
 
   var stop = 'tell application "Nicecast" to stop broadcast';
   asRun(stop);
+  tweet('backspace.fmのライブ配信を終了しました。聞いてくれてありがとうございました！ #backspacefm');
 }
 
 function asRun(script) {
@@ -75,3 +86,12 @@ function asRun(script) {
     }
   });
 }
+
+function tweet(text) {
+  client.post('statuses/update', {status: text},  function(error, tweet, response){
+    //if(error) throw error;
+    //console.log(tweet);  // Tweet body. 
+    //console.log(response);  // Raw response object. 
+  });
+}
+
